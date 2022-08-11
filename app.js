@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const cors = require('cors');
 
+const formidableMiddleware = require('express-formidable');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -52,6 +53,14 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
+app.use(
+  formidableMiddleware({
+    encoding: 'utf-8',
+    uploadDir: '/my/dir',
+    multiples: true, // req.files to be arrays of files
+  })
+);
+
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());

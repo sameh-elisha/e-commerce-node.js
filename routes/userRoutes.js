@@ -1,6 +1,8 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const { uploadSingleImage } = require('../middlewares/uploadImageMiddleware');
+const { resizeUserPhoto } = require('../middlewares/resizeImages');
 
 const router = express.Router();
 
@@ -18,8 +20,8 @@ router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/updateMe',
-  userController.uploadUserPhoto,
-  userController.resizeUserPhoto,
+  uploadSingleImage('photo'),
+  resizeUserPhoto,
   userController.updateMe
 );
 router.delete('/deleteMe', userController.deleteMe);
