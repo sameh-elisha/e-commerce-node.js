@@ -14,8 +14,8 @@ const cors = require('cors');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
-// const viewRouter = require('./routes/viewRoutes');
-
+const categoryRouter = require('./routes/categoryRoutes');
+const userRouter = require('./routes/userRoutes');
 // Start express app
 const app = express();
 
@@ -86,9 +86,9 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-// app.use('/', viewRouter);
+app.use('/api/v1/categories', categoryRouter);
 // app.use('/api/v1/tours', tourRouter);
-// app.use('/api/v1/users', userRouter);
+app.use('/api/v1/users', userRouter);
 // app.use('/api/v1/reviews', reviewRouter);
 // app.use('/api/v1/bookings', bookingRouter);
 
