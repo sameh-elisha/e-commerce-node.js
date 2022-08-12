@@ -54,10 +54,23 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createUser = factory.createOne(User);
+// @desc    Get specific user by id
+// @route   GET /api/v1/users/:id
+// @access  Private/Admin
 exports.getUser = factory.getOne(User);
+
+// @desc    Get list of users
+// @route   GET /api/v1/users
+// @access  Private/Admin
 exports.getAllUsers = factory.getAll(User);
 
-// Do NOT update passwords with this!
+// Do NOT update @passwords with this!
+// @desc    Update specific user
+// @route   PUT /api/v1/users/:id
+// @access  Private/Admin
 exports.updateUser = factory.updateOne(User);
+
+// @desc    Delete specific user
+// @route   DELETE /api/v1/users/:id
+// @access  Private/Admin
 exports.deleteUser = factory.deleteOne(User);
