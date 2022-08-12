@@ -26,6 +26,9 @@ exports.createUserValidator = [
         }
       })
     ),
+  check('passwordConfirm')
+    .notEmpty()
+    .withMessage('Password confirmation required'),
 
   check('password')
     .notEmpty()
@@ -38,10 +41,6 @@ exports.createUserValidator = [
       }
       return true;
     }),
-
-  check('passwordConfirm')
-    .notEmpty()
-    .withMessage('Password confirmation required'),
 
   check('phone')
     .optional()
