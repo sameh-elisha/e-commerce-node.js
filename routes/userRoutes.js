@@ -44,7 +44,7 @@ router
 router
   .route('/:id')
   .get(userController.getUser)
-  .patch(userController.updateUser)
+  .patch(userValidator.updateUserValidator, userController.updateUser)
   .delete(userController.deleteUser);
 
 module.exports = router;

@@ -59,15 +59,7 @@ exports.getUserValidator = [
 ];
 
 exports.updateUserValidator = [
-  check((val) =>
-    User.findOne({ email: val }).then((user) => {
-      if (user) {
-        return Promise.reject(new Error('E-mail already in user'));
-      }
-    })
-  )
-    .isMongoId()
-    .withMessage('Invalid User id format'),
+  check('id').isMongoId().withMessage('Invalid User id format'),
   body('name')
     .optional()
     .custom((val, { req }) => {
