@@ -54,6 +54,11 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
+// @desc    Create new user
+// @route   GET /api/v1/users/
+// @access  Private/Admin
+exports.createUser = factory.createOne(User);
+
 // @desc    Get specific user by id
 // @route   GET /api/v1/users/:id
 // @access  Private/Admin

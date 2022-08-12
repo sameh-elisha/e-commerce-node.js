@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-// const Email = require('../utils/email');
+const Email = require('../utils/email');
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -29,9 +29,7 @@ const createSendToken = (user, statusCode, req, res) => {
   res.status(statusCode).json({
     status: 'success',
     token,
-    data: {
-      user,
-    },
+    user,
   });
 };
 
@@ -40,12 +38,11 @@ exports.signup = catchAsync(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
   });
 
-  // const url = `${req.protocol}://${req.get('host')}/me`;
+  const url = `${req.protocol}://${req.get('host')}/zz`;
   // console.log(url);
-  // await new Email(newUser, url).sendWelcome();
+  await new Email(newUser, url).sendVerification();
 
   createSendToken(newUser, 201, req, res);
 });
@@ -181,7 +178,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     const resetURL = `${req.protocol}://${req.get(
       'host'
     )}/api/v1/users/resetPassword/${resetToken}`;
-    // await new Email(user, resetURL).sendPasswordReset();
+    await new Email(user, resetURL).sendPasswordReset();
     console.log(resetURL);
     res.status(200).json({
       status: 'success',
@@ -216,7 +213,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     return next(new AppError('Token is invalid or has expired', 400));
   }
   user.password = req.body.password;
-  user.passwordConfirm = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   await user.save();
@@ -234,10 +230,14 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
     return next(new AppError('Your current password is wrong.', 401));
   }
+  if (req.body.password !== req.body.passwordConfirm) {
+    return next(
+      new AppError("Password didn't match your current password", 401)
+    );
+  }
 
   // 3) If so, update password
   user.password = req.body.password;
-  user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
   // User.findByIdAndUpdate will NOT work as intended!
 
