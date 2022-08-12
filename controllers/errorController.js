@@ -51,7 +51,7 @@ const sendErrorProd = (err, req, res) => {
     if (err.isOperational) {
       return res.status(err.statusCode).json({
         status: err.status,
-        message: err.message,
+        errors: [{ msg: err.message }],
       });
     }
     // B) Programming or other unknown error: don't leak error details
@@ -59,8 +59,8 @@ const sendErrorProd = (err, req, res) => {
     console.error('ERROR 💥', err);
     // 2) Send generic message
     return res.status(500).json({
-      status: 'error',
-      message: 'Something went very wrong!',
+      status: err.status,
+      errors: [{ msg: err.message }],
     });
   }
 
@@ -68,8 +68,8 @@ const sendErrorProd = (err, req, res) => {
   // A) Operational, trusted error: send message to client
   if (err.isOperational) {
     return res.status(err.statusCode).render('error', {
-      title: 'Something went wrong!',
-      msg: err.message,
+      status: err.statusCode,
+      errors: [{ msg: 'Something went wrong!' }],
     });
   }
   // B) Programming or other unknown error: don't leak error details
@@ -78,7 +78,7 @@ const sendErrorProd = (err, req, res) => {
   // 2) Send generic message
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
-    msg: 'Please try again later.',
+    errors: [{ msg: 'Please try again later.' }],
   });
 };
 
