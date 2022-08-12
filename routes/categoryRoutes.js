@@ -1,6 +1,8 @@
 const express = require('express');
 const categoryController = require('../controllers/categoryController');
 const authController = require('../controllers/authController');
+const { uploadSingleImage } = require('../middlewares/uploadImageMiddleware');
+const { resizeCategoryPhoto } = require('../middlewares/resizeImages');
 
 const router = express.Router();
 
@@ -10,6 +12,8 @@ router
   .post(
     authController.protect,
     authController.restrictTo('admin'),
+    uploadSingleImage,
+    resizeCategoryPhoto,
     categoryController.createCategory
   );
 
@@ -19,6 +23,8 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin'),
+    uploadSingleImage,
+    resizeCategoryPhoto,
     categoryController.updateCategory
   )
   .delete(

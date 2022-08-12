@@ -16,13 +16,10 @@ const categorySchema = new mongoose.Schema(
     slug: {
       type: String,
     },
-    description: {
+
+    photo: {
       type: String,
-      trim: true,
-    },
-    imageCover: {
-      type: String,
-      required: [true, 'A category must have a cover image'],
+      default: 'default.jpg',
     },
   },
   {

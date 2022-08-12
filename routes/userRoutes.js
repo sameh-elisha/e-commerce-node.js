@@ -20,7 +20,7 @@ router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/updateMe',
-  uploadSingleImage('photo'),
+  uploadSingleImage,
   resizeUserPhoto,
   userController.updateMe
 );
@@ -28,10 +28,8 @@ router.delete('/deleteMe', userController.deleteMe);
 
 router.use(authController.restrictTo('admin'));
 
-router
-  .route('/')
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+router.route('/').get(userController.getAllUsers);
+// .post(userController.createUser);
 
 router
   .route('/:id')

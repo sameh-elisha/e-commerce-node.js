@@ -1,24 +1,24 @@
 const sharp = require('sharp');
+const { v4: uuidv4 } = require('uuid');
 const catchAsync = require('../utils/catchAsync');
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
-  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  req.body.photo = `user-${req.user.id}-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`public/img/users/${req.file.filename}`);
-  console.log('resized');
   next();
 });
 
 exports.resizeCategoryPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
-  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  req.body.photo = `category-${uuidv4()}-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
     .resize(1000, 1000)
@@ -33,12 +33,12 @@ exports.resizeProductsImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
 
   // 1) Cover image
-  req.body.imageCover = `Category-${req.params.id}-${Date.now()}-cover.jpeg`;
+  req.body.imageCover = `products-${uuidv4()}-${Date.now()}-cover.jpeg`;
   await sharp(req.files.imageCover[0].buffer)
     .resize(2000, 1333)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/img/tours/${req.body.imageCover}`);
+    .toFile(`public/img/products/${req.body.imageCover}`);
 
   // 2) Images
   req.body.images = [];
@@ -51,7 +51,7 @@ exports.resizeProductsImages = catchAsync(async (req, res, next) => {
         .resize(2000, 1333)
         .toFormat('jpeg')
         .jpeg({ quality: 90 })
-        .toFile(`public/img/tours/${filename}`);
+        .toFile(`public/img/products/${filename}`);
 
       req.body.images.push(filename);
     })

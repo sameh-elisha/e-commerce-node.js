@@ -16,7 +16,7 @@ const multerOptions = () => {
   return upload;
 };
 
-exports.uploadSingleImage = (fieldName) => multerOptions().single(fieldName);
+exports.uploadSingleImage = multerOptions().single('photo');
 
 /*
     @arrayOfFields like this:
