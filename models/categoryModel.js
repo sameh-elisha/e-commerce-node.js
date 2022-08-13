@@ -23,6 +23,7 @@ const categorySchema = new mongoose.Schema(
     },
   },
   {
+    _id: false,
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },

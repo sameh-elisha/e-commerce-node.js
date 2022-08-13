@@ -19,7 +19,19 @@ const subCategorySchema = new mongoose.Schema(
       required: [true, 'SubCategory must be belong to parent category'],
     },
   },
-  { timestamps: true }
+  {
+    _id: false,
+
+    timestamps: true,
+  }
 );
+subCategorySchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.populate({
+    path: 'category',
+    select: 'name -_id',
+  });
+  next();
+});
 
 module.exports = mongoose.model('SubCategory', subCategorySchema);

@@ -53,6 +53,8 @@ router
 router
   .route('/:categoryId/subcategories')
   .get(
+    authController.protect,
+    authController.restrictTo('admin', 'manager'),
     setCategoryIdToBody,
     getSubCategoryFromCateValidator,
     categoryController.getSubCategories
