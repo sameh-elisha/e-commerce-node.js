@@ -7,11 +7,11 @@ class APIFeatures {
   filter() {
     const queryObj = { ...this.queryString };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    excludedFields.forEach(el => delete queryObj[el]);
+    excludedFields.forEach((el) => delete queryObj[el]);
 
     // 1B) Advanced filtering
     let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
     this.query = this.query.find(JSON.parse(queryStr));
 
@@ -47,6 +47,23 @@ class APIFeatures {
 
     this.query = this.query.skip(skip).limit(limit);
 
+    return this;
+  }
+
+  search(modelName) {
+    if (this.queryString.keyword) {
+      let query = {};
+      if (modelName === 'Products') {
+        query.$or = [
+          { title: { $regex: this.queryString.keyword, $options: 'i' } },
+          { description: { $regex: this.queryString.keyword, $options: 'i' } },
+        ];
+      } else {
+        query = { name: { $regex: this.queryString.keyword, $options: 'i' } };
+      }
+
+      this.mongooseQuery = this.mongooseQuery.find(query);
+    }
     return this;
   }
 }

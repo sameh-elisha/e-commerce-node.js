@@ -59,16 +59,18 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = (Model, popOptions) =>
+exports.getAll = (Model, popOptions, ModelName = '') =>
   catchAsync(async (req, res, next) => {
     let query = Model.find();
-    if (popOptions) query = query.populate(popOptions);
+    if (Object.keys(popOptions).length !== 0)
+      query = query.populate(popOptions);
     // To allow for nested GET reviews on tour (hack)
     const features = new APIFeatures(query, req.query)
       .filter()
       .sort()
       .limitFields()
-      .paginate();
+      .paginate()
+      .search(ModelName);
     // const doc = await features.query.explain();
     const doc = await features.query;
 
