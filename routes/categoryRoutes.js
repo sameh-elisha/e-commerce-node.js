@@ -7,7 +7,16 @@ const {
   createCategoryValidator,
   updateCategoryValidator,
   deleteCategoryValidator,
+  getSubCategoryFromCateValidator,
 } = require('../utils/validators/categoryValidator');
+const {
+  createSubCategoryValidator,
+} = require('../utils/validators/subCategoryValidator');
+
+const {
+  setCategoryIdToBody,
+  createSubCategory,
+} = require('../controllers/subCategoryController');
 
 const router = express.Router();
 
@@ -39,6 +48,21 @@ router
     authController.restrictTo('admin'),
     deleteCategoryValidator,
     categoryController.deleteCategory
+  );
+
+router
+  .route('/:categoryId/subcategories')
+  .get(
+    setCategoryIdToBody,
+    getSubCategoryFromCateValidator,
+    categoryController.getSubCategories
+  )
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'manager'),
+    setCategoryIdToBody,
+    createSubCategoryValidator,
+    createSubCategory
   );
 
 module.exports = router;

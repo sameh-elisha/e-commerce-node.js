@@ -1,7 +1,23 @@
 const Category = require('../models/categoryModel');
+const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+const SubCategory = require('../models/subCategoryModel');
+
 // const catchAsync = require('./../utils/catchAsync');
 
+exports.getSubCategories = catchAsync(async (req, res, next) => {
+  const listOfSubCategories = await SubCategory.find({
+    category: req.params.categoryId,
+  });
+
+  if (!listOfSubCategories) {
+    return next(new Error('Category not found'));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: listOfSubCategories,
+  });
+});
 // @desc    Get list of categories
 // @route   GET /api/v1/categories
 // @access  Public

@@ -33,3 +33,8 @@ exports.deleteCategoryValidator = [
   check('id').isMongoId().withMessage('Invalid category id format'),
   validatorMiddleware,
 ];
+
+exports.getSubCategoryFromCateValidator = [
+  check('category').isMongoId().withMessage('Invalid category id format'),
+  validatorMiddleware,
+];
