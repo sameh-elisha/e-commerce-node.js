@@ -34,7 +34,7 @@ router
 router
   .route('/:id')
   .get(getReviewValidator, getReview)
-  .put(
+  .patch(
     authController.protect,
     authController.restrictTo('user'),
     updateReviewValidator,
