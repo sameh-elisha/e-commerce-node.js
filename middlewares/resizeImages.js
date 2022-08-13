@@ -42,11 +42,11 @@ exports.resizeBrandPhoto = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.resizeProductsImages = catchAsync(async (req, res, next) => {
+exports.resizeProductImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
 
   // 1) Cover image
-  req.body.imageCover = `products-${uuidv4()}-${Date.now()}-cover.jpeg`;
+  req.body.imageCover = `imageCover-${uuidv4()}-${Date.now()}-cover.jpeg`;
   await sharp(req.files.imageCover[0].buffer)
     .resize(2000, 1333)
     .toFormat('jpeg')
@@ -58,7 +58,7 @@ exports.resizeProductsImages = catchAsync(async (req, res, next) => {
 
   await Promise.all(
     req.files.images.map(async (file, i) => {
-      const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+      const filename = `product-${uuidv4()}-${Date.now()}-${i + 1}.jpeg`;
 
       await sharp(file.buffer)
         .resize(2000, 1333)
