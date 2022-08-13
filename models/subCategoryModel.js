@@ -20,18 +20,16 @@ const subCategorySchema = new mongoose.Schema(
     },
   },
   {
-    _id: false,
-
     timestamps: true,
   }
 );
-subCategorySchema.pre(/^find/, function (next) {
-  // this points to the current query
-  this.populate({
-    path: 'category',
-    select: 'name -_id',
-  });
-  next();
-});
+// subCategorySchema.pre(/^find/, function (next) {
+//   // this points to the current query
+//   this.populate({
+//     path: 'category',
+//     select: 'name -_id',
+//   });
+//   next();
+// });
 
 module.exports = mongoose.model('SubCategory', subCategorySchema);

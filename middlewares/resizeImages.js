@@ -28,6 +28,19 @@ exports.resizeCategoryPhoto = catchAsync(async (req, res, next) => {
 
   next();
 });
+exports.resizeBrandPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.body.photo = `brand-${uuidv4()}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(300, 300)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/brands/${req.file.filename}`);
+
+  next();
+});
 
 exports.resizeProductsImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();

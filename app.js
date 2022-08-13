@@ -18,6 +18,8 @@ const categoryRouter = require('./routes/categoryRoutes');
 const userRouter = require('./routes/userRoutes');
 const authRouter = require('./routes/authRoutes');
 const subCategoryRouter = require('./routes/subCategoryRoutes');
+const brandRouter = require('./routes/brandRoutes');
+
 // Start express app
 const app = express();
 
@@ -96,6 +98,8 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);
 
 app.use('/api/v1/subcategories', subCategoryRouter);
+
+app.use('/api/v1/brands', brandRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

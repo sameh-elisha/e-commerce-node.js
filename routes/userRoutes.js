@@ -11,12 +11,31 @@ const {
   changeUserPasswordValidator,
   updateLoggedUserValidator,
 } = require('../utils/validators/userValidator');
+const {
+  addAddress,
+  removeAddress,
+  getLoggedUserAddresses,
+} = require('../controllers/addressesController');
 
 const router = express.Router();
 
 // Protect all routes after this middleware
 router.use(authController.protect);
 
+// @desc Addresses Routes
+
+router
+  .route('/addresses')
+  .post(authController.restrictTo('user'), addAddress)
+  .get(authController.restrictTo('user'), getLoggedUserAddresses);
+
+router.delete(
+  '/addresses/:addressId',
+  authController.restrictTo('user'),
+  removeAddress
+);
+
+// @desc User Routes
 router.patch(
   '/updateMyPassword',
   changeUserPasswordValidator,
@@ -32,6 +51,7 @@ router.patch(
 );
 router.delete('/deleteMe', deleteUserValidator, userController.deleteMe);
 
+// @desc Admin manage users Routes
 router.use(authController.restrictTo('admin', 'manager'));
 
 router
