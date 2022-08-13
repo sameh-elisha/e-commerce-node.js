@@ -3,7 +3,14 @@ const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const { uploadSingleImage } = require('../middlewares/uploadImageMiddleware');
 const { resizeUserPhoto } = require('../middlewares/resizeImages');
-const userValidator = require('../utils/validators/userValidator');
+const {
+  getUserValidator,
+  createUserValidator,
+  updateUserValidator,
+  deleteUserValidator,
+  changeUserPasswordValidator,
+  updateLoggedUserValidator,
+} = require('../utils/validators/userValidator');
 
 const router = express.Router();
 
@@ -12,7 +19,7 @@ router.use(authController.protect);
 
 router.patch(
   '/updateMyPassword',
-  userValidator.changeUserPasswordValidator,
+  changeUserPasswordValidator,
   authController.updatePassword
 );
 router.get('/me', userController.getMe, userController.getUser);
@@ -20,16 +27,12 @@ router.patch(
   '/updateMe',
   uploadSingleImage,
   resizeUserPhoto,
-  userValidator.updateLoggedUserValidator,
+  updateLoggedUserValidator,
   userController.updateMe
 );
-router.delete(
-  '/deleteMe',
-  userValidator.deleteUserValidator,
-  userController.deleteMe
-);
+router.delete('/deleteMe', deleteUserValidator, userController.deleteMe);
 
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('admin', 'manager'));
 
 router
   .route('/')
@@ -37,14 +40,14 @@ router
   .post(
     uploadSingleImage,
     resizeUserPhoto,
-    userValidator.createUserValidator,
+    createUserValidator,
     userController.createUser
   );
 
 router
   .route('/:id')
-  .get(userController.getUser)
-  .patch(userValidator.updateUserValidator, userController.updateUser)
+  .get(getUserValidator, userController.getUser)
+  .patch(updateUserValidator, userController.updateUser)
   .delete(userController.deleteUser);
 
 module.exports = router;

@@ -17,7 +17,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const categoryRouter = require('./routes/categoryRoutes');
 const userRouter = require('./routes/userRoutes');
 const authRouter = require('./routes/authRoutes');
-
+const subCategoryRouter = require('./routes/subCategoryRoutes');
 // Start express app
 const app = express();
 
@@ -94,7 +94,8 @@ app.use('/api/v1/categories', categoryRouter);
 // app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);
-// app.use('/api/v1/bookings', bookingRouter);
+
+app.use('/api/v1/subcategories', subCategoryRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
