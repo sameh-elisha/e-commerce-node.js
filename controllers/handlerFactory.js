@@ -46,7 +46,7 @@ exports.createOne = (Model) =>
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
-    if (Object.keys(popOptions).length !== 0)
+    if (!popOptions || Object.keys(popOptions).length !== 0)
       query = query.populate(popOptions);
     const doc = await query;
 
@@ -62,7 +62,11 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model, popOptions, ModelName = '') =>
   catchAsync(async (req, res, next) => {
-    let query = Model.find();
+    let filter = {};
+    if (req.filterObj) {
+      filter = req.filterObj;
+    }
+    let query = Model.find(filter);
     if (!popOptions || Object.keys(popOptions).length !== 0)
       query = query.populate(popOptions);
     // To allow for nested GET reviews on tour (hack)

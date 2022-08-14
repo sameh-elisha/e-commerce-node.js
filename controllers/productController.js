@@ -16,7 +16,7 @@ exports.uploadProductImages = uploadMixOfImages([
 // @desc    Get list of products
 // @route   GET /api/v1/products
 // @access  Public
-exports.getProducts = factory.getAll(Product, { path: 'reviews' }, 'Products');
+exports.getProducts = factory.getAll(Product, {}, 'Products');
 
 // @desc    Get specific product by id
 // @route   GET /api/v1/products/:id

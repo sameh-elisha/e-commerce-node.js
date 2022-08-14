@@ -1,16 +1,16 @@
 const express = require('express');
 
-const authService = require('../services/authService');
+const authController = require('../controllers/authController');
 
 const {
   addAddress,
   removeAddress,
   getLoggedUserAddresses,
-} = require('../services/addressService');
+} = require('../controllers/addressesController');
 
 const router = express.Router();
 
-router.use(authService.protect, authService.allowedTo('user'));
+router.use(authController.protect, authController.restrictTo('user'));
 
 router.route('/').post(addAddress).get(getLoggedUserAddresses);
 

@@ -23,7 +23,6 @@ const router = express.Router();
 router.use(authController.protect);
 
 // @desc Addresses Routes
-
 router
   .route('/addresses')
   .post(authController.restrictTo('user'), addAddress)
