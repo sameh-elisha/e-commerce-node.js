@@ -18,6 +18,6 @@ router.use(
 );
 
 router.route('/').get(getCoupons).post(createCoupon);
-router.route('/:id').get(getCoupon).put(updateCoupon).delete(deleteCoupon);
+router.route('/:id').get(getCoupon).patch(updateCoupon).delete(deleteCoupon);
 
 module.exports = router;

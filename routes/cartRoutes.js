@@ -24,6 +24,6 @@ router
   .route('/:itemId')
   .delete(removeSpecificCartItem)
   .patch(updateCartItemQuantity);
-router.route('/applyCoupon').post(applyCoupon);
+router.route('/applyCoupon').put(applyCoupon);
 
 module.exports = router;
