@@ -125,11 +125,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-.env
-*.env
+
 .cache/
 config/
 
 
 # Secret file
-.env
+config.env
