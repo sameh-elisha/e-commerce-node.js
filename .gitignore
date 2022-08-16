@@ -130,3 +130,6 @@ dist
 .cache/
 config/
 
+
+# Secret file
+.env
