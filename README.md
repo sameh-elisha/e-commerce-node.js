@@ -35,7 +35,6 @@ node seeder -i
 
 Extensive documentation with examples [here](https://documenter.getpostman.com/view/16890975/VUjTjhnx#intro)
 
-The API is live at [https://procamp-api.herokuapp.com](https://procamp-api.herokuapp.com)
 
 # API Specifications
 
