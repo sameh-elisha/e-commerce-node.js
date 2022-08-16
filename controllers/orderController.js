@@ -139,12 +139,18 @@ exports.checkoutSession = catchAsync(async (req, res, next) => {
   const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
 
   // 3) Create stripe checkout session
+
   const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
     line_items: [
       {
-        name: req.user.name,
-        amount: totalOrderPrice * 100,
-        currency: 'egp',
+        price_data: {
+          currency: 'USD',
+          product_data: {
+            name: req.user.name,
+          },
+          unit_amount: totalOrderPrice * 100,
+        },
         quantity: 1,
       },
     ],

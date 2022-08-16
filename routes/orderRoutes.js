@@ -28,7 +28,7 @@ router.get(
   '/',
   authController.restrictTo('user', 'admin', 'manager'),
   filterOrderForLoggedUser,
-  findAllOrders``
+  findAllOrders
 );
 router.get('/:id', findSpecificOrder);
 

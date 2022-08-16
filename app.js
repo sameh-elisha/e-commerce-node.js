@@ -14,6 +14,7 @@ const cors = require('cors');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const mountRoutes = require('./routes/index');
+const { webhookCheckout } = require('./controllers/orderController');
 
 // Start express app
 const app = express();
@@ -49,6 +50,12 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
+// Checkout webhook
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout
+);
 
 // Body parser, reading data from body into req.body
 app.use(bodyParser.json());
