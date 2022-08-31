@@ -1,6 +1,14 @@
 # E-commerce API
 
 > Backend API for E-commerce application.
+- Build Ecommerce api like sign-in, register, products, reviews, shopping cart and etc.
+  * Categories & SubCategories & Brands & Products & Cart & Reviews & Coupen & Wishlist & Addresses CRUD Operations.
+  * Authentication [JWT] and Authorization
+  * Error Handling & Validation Layer
+  * Upload Single And Multiple Images And Image Processing
+  * Cash And Online Orders, Online Payments.
+  * Secuirty xss & Data sanitization against NoSQL & Prevent parameter pollution
+
 ## Usage
 
 Rename "config/config.env.env" to "config/config.env" and update the values/settings to your own
